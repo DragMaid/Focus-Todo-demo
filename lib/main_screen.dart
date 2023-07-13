@@ -1,5 +1,5 @@
-import 'dart:ui' as ui;
-import 'dart:async';
+//import 'dart:ui' as ui;
+//import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:focus_todo/background_manager.dart';
 import 'package:focus_todo/main_icons.dart';
@@ -17,8 +17,11 @@ class _MascotState extends State<Mascot> {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/character/default-character.png',
-        width: 400, height: 400);
+    return Container(
+      alignment: Alignment.center,
+      child: Image.asset('assets/character/default-character.png',
+          width: width, height: height),
+    );
   }
 }
 
@@ -46,7 +49,7 @@ class MainBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Colors.red.withOpacity(0),
+      color: Colors.pink,
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: const Row(
@@ -65,17 +68,19 @@ class MainBottomBar extends StatelessWidget {
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final List<Widget> managers;
+  const MainScreen(this.managers, {super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Stack(
-        children: [
-          BackgroundManager(),
-          Mascot(),
-        ],
+        children: List.unmodifiable(() sync* {
+          //managers.every((item) {return item}),
+          yield* managers;
+          yield const Mascot();
+        }()),
       ),
-      bottomNavigationBar: MainBottomBar(),
+      bottomNavigationBar: const MainBottomBar(),
     );
   }
 }
