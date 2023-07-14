@@ -7,7 +7,12 @@ class BackgroundManager extends StatefulWidget {
 }
 
 class _BackgroundManagerState extends State<BackgroundManager> {
-  String imageLink = 'assets/background/background1.jpg';
+  String imageLink = 'assets/background/default.png';
+
+  void changeBackground(String link) {
+    imageLink = link;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 // App screens import
 import 'package:focus_todo/main_screen.dart';
-import 'package:focus_todo/pomodoro_timer.dart';
+import 'package:focus_todo/pomodoro_screen.dart';
 import 'package:focus_todo/todo_screen.dart';
 
-// App behavior manager  import
+// App behavior manager import
 import 'package:focus_todo/gesture_manager.dart';
 import 'package:focus_todo/background_manager.dart';
 
@@ -17,25 +17,36 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AppViewModel())],
-      child: const MyApp(),
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppViewModel()),
+      ],
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  // Managers initialization
   final BackgroundManager bgManager = const BackgroundManager();
-  const MyApp({super.key});
+
+// Screens initialization
+  late final MainScreen mainScreen = MainScreen(managerContainer: [bgManager]);
+  late final PomodoroScreen pomoScreen =
+      PomodoroScreen(managerContainer: [bgManager]);
+  late final TodoScreen todoScreen = const TodoScreen();
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Stack(
-        children: [
-          MainScreen([bgManager]),
-          const GestureManager(),
-        ],
-      ),
+      title: 'GDStudy',
+      home: mainScreen,
+      initialRoute: '/pomoscreen',
+      routes: {
+        '/mainscreen': (context) => mainScreen,
+        '/pomoscreen': (context) => pomoScreen,
+        '/todoscreen': (context) => todoScreen,
+      },
     );
   }
 }
