@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 // App screens import
 import 'package:focus_todo/main_screen.dart';
-import 'package:focus_todo/pomodoro_screen.dart';
-import 'package:focus_todo/todo_screen.dart';
+//import 'package:focus_todo/pomodoro_screen.dart';
+//import 'package:focus_todo/todo_screen.dart';
 
 // App behavior manager import
-import 'package:focus_todo/gesture_manager.dart';
+//import 'package:focus_todo/gesture_manager.dart';
 import 'package:focus_todo/background_manager.dart';
 
 // External libraries import
@@ -31,9 +31,6 @@ class MyApp extends StatelessWidget {
 
 // Screens initialization
   late final MainScreen mainScreen = MainScreen(managerContainer: [bgManager]);
-  late final PomodoroScreen pomoScreen =
-      PomodoroScreen(managerContainer: [bgManager]);
-  late final TodoScreen todoScreen = const TodoScreen();
   MyApp({super.key});
 
   @override
@@ -41,12 +38,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'GDStudy',
       home: mainScreen,
-      initialRoute: '/pomoscreen',
-      routes: {
-        '/mainscreen': (context) => mainScreen,
-        '/pomoscreen': (context) => pomoScreen,
-        '/todoscreen': (context) => todoScreen,
-      },
     );
   }
 }

@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:focus_todo/main_icons.dart';
 
+import 'package:focus_todo/pomodoro_widget.dart';
+
 class MainBottomButton extends StatelessWidget {
   final IconData icon;
   final String name;
-  final String screenName;
-  const MainBottomButton(this.name, this.icon, this.screenName, {super.key});
+  final Function(Widget) func;
+  final Widget widget;
+  const MainBottomButton(
+      {required this.name,
+      required this.icon,
+      required this.func,
+      required this.widget,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,7 @@ class MainBottomButton extends StatelessWidget {
           color: Colors.black,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, screenName);
+          func(widget);
         },
       ),
     );
@@ -32,13 +40,26 @@ class MainBottomButton extends StatelessWidget {
 
 class MainBottomBar extends StatelessWidget {
   late final List<MainBottomButton> btnContainer;
-  MainBottomBar({super.key}) {
-    btnContainer = const [
-      MainBottomButton("Cloth", Main.shirt_solid, '/mainscreen'),
-      MainBottomButton("IDK", Main.utensils_solid, '/pomoscreen'),
-      MainBottomButton("Home", Main.house_solid, '/todoscreen'),
-      MainBottomButton("Sleep", Main.moon_solid, '/mainscreen'),
-      MainBottomButton("Edit", Main.pen_solid, '/mainscreen'),
+  final Function(Widget) func;
+
+  // Precache widget initialization
+  final PomodoroTimer timerWidget = const PomodoroTimer();
+  MainBottomBar({required this.func, super.key}) {
+    btnContainer = [
+      MainBottomButton(
+        name: "Cloth",
+        icon: Main.shirt_solid,
+        func: func,
+        widget: timerWidget,
+      ),
+      MainBottomButton(
+          name: "IDK", icon: Main.utensils_solid, func: func, widget: Text('')),
+      MainBottomButton(
+          name: "Home", icon: Main.house_solid, func: func, widget: Text('')),
+      MainBottomButton(
+          name: "Sleep", icon: Main.moon_solid, func: func, widget: Text('')),
+      MainBottomButton(
+          name: "Edit", icon: Main.pen_solid, func: func, widget: Text('')),
     ];
   }
 
@@ -49,30 +70,71 @@ class MainBottomBar extends StatelessWidget {
       alignment: FractionalOffset.bottomCenter,
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: btnContainer,
-        ),
+        child: SizedBox(
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: btnContainer,
+            )),
       ),
     );
   }
 }
 
-class BaseClass extends StatelessWidget {
+class BaseClass extends StatefulWidget {
   final List<Widget> managerContainer;
   final List<Widget> widgetContainer;
-  final List<Widget> defaultWidget = [MainBottomBar()];
+  late List<Widget> defaultWidget;
 
   BaseClass(
       {required this.widgetContainer,
       required this.managerContainer,
       super.key});
+
+  @override
+  State<BaseClass> createState() => _BaseClassState();
+}
+
+class _BaseClassState extends State<BaseClass> {
+  static bool _widgetOn = false;
+
+  Opacity blurScreen = Opacity(
+    opacity: _widgetOn ? 0.5 : 0,
+    child: Container(color: Colors.black),
+  );
+
+  late List<Widget> allContainer = [
+    ...widget.managerContainer,
+    ...widget.widgetContainer,
+    blurScreen,
+    //...widget.defaultWidget,
+    MainBottomBar(func: toggleWidget),
+  ];
+
+  void addWidget(Widget widget) {
+    setState(() {
+      allContainer.insert(allContainer.length - 1, widget);
+      _widgetOn = !_widgetOn;
+    });
+  }
+
+  void removeWidget() {
+    setState(() {
+      allContainer.removeAt(allContainer.length - 2);
+      _widgetOn = !_widgetOn;
+    });
+  }
+
+  void toggleWidget(Widget widget) {
+    if (!_widgetOn) {
+      addWidget(widget);
+    } else {
+      removeWidget();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-          children: List.from(managerContainer)
-            ..addAll(List.from(widgetContainer)..addAll(defaultWidget))),
-    );
+    return Scaffold(body: Stack(children: allContainer));
   }
 }
