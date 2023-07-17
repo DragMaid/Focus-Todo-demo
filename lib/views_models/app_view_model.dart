@@ -13,7 +13,7 @@ class AppViewModel extends ChangeNotifier {
 
   int get numTasks => tasks.length;
 
-  int get numTasksRemaining => tasks.where((task) => task.completed).length;
+  int get numTasksRemaining => tasks.where((task) => !task.completed).length;
 
   String get username => user.username;
 

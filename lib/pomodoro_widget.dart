@@ -12,19 +12,20 @@ class _TimerSliderState extends State<TimerSlider> {
   final double _maxValue = 120;
   final double _minValue = 5;
   final int _gapValue = 5;
-  double _currentValue = 5;
+  double _currentValue = 45;
 
   @override
   Widget build(BuildContext context) {
     return SliderTheme(
       data: const SliderThemeData(
-          thumbColor: Colors.black,
           trackHeight: 20,
           thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15)),
       child: Slider(
           value: _currentValue,
           min: _minValue,
           max: _maxValue,
+          activeColor: const Color.fromRGBO(255, 156, 108, 0.7),
+          thumbColor: const Color.fromRGBO(255, 156, 108, 1),
           divisions: (_maxValue / _gapValue).round(),
           label: _currentValue.round().toString(),
           onChanged: (double value) {
@@ -66,6 +67,7 @@ class _CustomButtonState extends State<CustomButton> {
 
   @override
   Widget build(BuildContext context) {
+    String buttonText = widget.getState() ? "PAUSE" : "START";
     return SizedBox(
         height: widget.height,
         width: widget.width,
@@ -80,16 +82,15 @@ class _CustomButtonState extends State<CustomButton> {
                     child: Container(
                       height: buttonGap,
                       color: const Color(0xFFffcc99),
-                      //alignment: Alignment.topCenter,
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: decrement),
                     height: widget.height - buttonGap,
                     color: const Color(0xFFffffcc),
-                    child: const Center(
-                        child: Text("START",
-                            style: TextStyle(
+                    child: Center(
+                        child: Text(buttonText,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                                 fontSize: 30))),
@@ -124,7 +125,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   bool isOn = false;
 
   Timer? countdownTimer;
-  List<int> defaultDuration = [0, 70, 0];
+  List<int> defaultDuration = [0, 45, 0];
   late Duration currentDuration = Duration(
     hours: defaultDuration[0],
     minutes: defaultDuration[1],
@@ -191,14 +192,14 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     final minutes = strDigits(currentDuration.inMinutes.remainder(60));
     final seconds = strDigits(currentDuration.inSeconds.remainder(60));
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color.fromRGBO(255, 244, 232, 1),
       body: Center(
         child: FractionallySizedBox(
             heightFactor: 0.5,
             widthFactor: 1.0,
             child: Container(
                 margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-                color: Colors.red,
+                color: const Color.fromRGBO(254, 231, 212, 1),
                 child: Column(children: [
                   Expanded(
                       flex: 60,
@@ -207,7 +208,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                             child: Text("$hours:$minutes:$seconds",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                    color: Color.fromRGBO(251, 126, 70, 1),
                                     fontSize: 50))),
                         Align(
                           alignment: Alignment.bottomCenter,
@@ -229,7 +230,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                       child: Center(
                           child: CustomButton(
                               width: 200,
-                              height: 90,
+                              height: 75,
                               func: () {
                                 clockToggle();
                               }))),

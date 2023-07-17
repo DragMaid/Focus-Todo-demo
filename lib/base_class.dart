@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:focus_todo/main_icons.dart';
 
 import 'package:focus_todo/pomodoro_widget.dart';
+import 'package:focus_todo/todo_widget.dart';
+import 'package:focus_todo/barchart_widget.dart';
 
-class MainBottomButton extends StatelessWidget {
+class MainBottomButton extends StatefulWidget {
   final IconData icon;
   final String name;
   final Function(Widget) func;
@@ -14,24 +16,31 @@ class MainBottomButton extends StatelessWidget {
       required this.func,
       required this.widget,
       super.key});
+  State<MainBottomButton> createState() => _MainBottomButtonState();
+}
 
+class _MainBottomButtonState extends State<MainBottomButton> {
+  bool _isPressed = false;
   @override
   Widget build(BuildContext context) {
+    int highlightWidth = _isPressed ? 8 : 3;
+    Color highlightColor = _isPressed ? Colors.blue : Colors.brown;
+
     return Container(
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             side: const BorderSide(width: 3, color: Colors.brown),
-            borderRadius: BorderRadius.circular(100)),
-        heroTag: name,
+            borderRadius: BorderRadius.circular(200)),
+        heroTag: widget.name,
         child: Icon(
-          icon,
-          size: 35,
+          widget.icon,
+          size: 40,
           color: Colors.black,
         ),
         onPressed: () {
-          func(widget);
+          widget.func(widget);
         },
       ),
     );
@@ -44,22 +53,31 @@ class MainBottomBar extends StatelessWidget {
 
   // Precache widget initialization
   final PomodoroTimer timerWidget = const PomodoroTimer();
+  final TodoWidget todoWidget = const TodoWidget();
+  final BarWidget barWidget = const BarWidget();
+
   MainBottomBar({required this.func, super.key}) {
     btnContainer = [
       MainBottomButton(
-        name: "Cloth",
-        icon: Main.shirt_solid,
+        name: "Timer",
+        icon: Icons.watch_later_rounded,
         func: func,
         widget: timerWidget,
       ),
       MainBottomButton(
-          name: "IDK", icon: Main.utensils_solid, func: func, widget: Text('')),
+          name: "Todo",
+          icon: Icons.edit_rounded,
+          func: func,
+          widget: todoWidget),
       MainBottomButton(
-          name: "Home", icon: Main.house_solid, func: func, widget: Text('')),
+          name: "Home", icon: Icons.home, func: func, widget: barWidget),
       MainBottomButton(
-          name: "Sleep", icon: Main.moon_solid, func: func, widget: Text('')),
+          name: "Sleep",
+          icon: Icons.bar_chart_outlined,
+          func: func,
+          widget: Text('')),
       MainBottomButton(
-          name: "Edit", icon: Main.pen_solid, func: func, widget: Text('')),
+          name: "Edit", icon: Icons.settings, func: func, widget: Text('')),
     ];
   }
 
@@ -73,7 +91,7 @@ class MainBottomBar extends StatelessWidget {
         child: SizedBox(
             height: 80,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: btnContainer,
             )),
       ),

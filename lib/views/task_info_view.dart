@@ -9,7 +9,7 @@ class TaskInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppViewModel>(builder: (context, viewModel, child) {
       return Container(
-        margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+        margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
         child: Row(
           children: [
             //Total Tasks
@@ -17,7 +17,7 @@ class TaskInfoView extends StatelessWidget {
               flex: 1,
               child: Container(
                   decoration: BoxDecoration(
-                      color: viewModel.clrLv2,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     children: [
@@ -40,7 +40,7 @@ class TaskInfoView extends StatelessWidget {
                           alignment: Alignment.topCenter,
                           child: FittedBox(
                             child: Text(
-                              'so task',
+                              'Total',
                               style: TextStyle(
                                   color: viewModel.clrLv4,
                                   fontWeight: FontWeight.w600),
@@ -51,13 +51,13 @@ class TaskInfoView extends StatelessWidget {
                     ],
                   )),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             // Remaining
             Expanded(
               flex: 1,
               child: Container(
                   decoration: BoxDecoration(
-                      color: viewModel.clrLv2,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     children: [
@@ -80,7 +80,7 @@ class TaskInfoView extends StatelessWidget {
                           alignment: Alignment.topCenter,
                           child: FittedBox(
                             child: Text(
-                              'da xong',
+                              'Incomplete',
                               style: TextStyle(
                                   color: viewModel.clrLv4,
                                   fontWeight: FontWeight.w600),

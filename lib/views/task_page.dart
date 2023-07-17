@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:focus_todo/views/add_task_view.dart';
 import 'package:focus_todo/views/header_view.dart';
 import 'package:focus_todo/views/task_info_view.dart';
 import 'package:focus_todo/views/task_list_view.dart';
@@ -9,26 +8,31 @@ class TaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              // Header View
-              Expanded(
-                flex: 1,
-                child: HeaderView(),
-              ),
-              // Task Info View
-              Expanded(
-                flex: 1,
-                child: TaskInfoView(),
-              ),
-              // Task List View
-              Expanded(flex: 7, child: TaskListView()),
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(254, 231, 212, 1),
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            // Task Info View
+            Expanded(
+              flex: 1,
+              child: Container(
+                  color: const Color.fromRGBO(255, 156, 108, 0.6),
+                  child: const TaskInfoView()),
+            ),
+            // Header View
+            Expanded(
+              flex: 1,
+              child: Container(
+                  color: const Color.fromRGBO(255, 156, 108, 0.6),
+                  child: const HeaderView()),
+            ),
+            // Task List View
+            const Expanded(flex: 7, child: TaskListView()),
+          ],
         ),
-        floatingActionButton: AddTaskView());
+      ),
+    );
   }
 }
