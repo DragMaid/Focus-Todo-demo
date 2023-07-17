@@ -2,16 +2,11 @@
 import 'package:flutter/material.dart';
 
 // App screens import
-import 'package:focus_todo/main_screen.dart';
-//import 'package:focus_todo/pomodoro_screen.dart';
-//import 'package:focus_todo/todo_screen.dart';
-
-// App behavior manager import
-//import 'package:focus_todo/gesture_manager.dart';
-import 'package:focus_todo/background_manager.dart';
+import 'package:focus_todo/main_model/main_screen.dart';
+import 'package:focus_todo/main_model/background_manager.dart';
 
 // External libraries import
-import 'package:focus_todo/views_models/app_view_model.dart';
+import 'package:focus_todo/todo_model/views_models/app_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
